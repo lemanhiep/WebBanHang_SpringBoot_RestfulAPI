@@ -1,4 +1,7 @@
 package com.webbanhang_springboot_restfulapi.dao;
 
-public interface AuthorityDAO {
+import com.webbanhang_springboot_restfulapi.entity.Authority;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AuthorityDAO extends JpaRepository<Authority, Integer> {
 }

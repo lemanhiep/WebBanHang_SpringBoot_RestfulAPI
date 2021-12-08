@@ -1,4 +1,7 @@
 package com.webbanhang_springboot_restfulapi.dao;
 
-public interface OrderDetailDAO {
+import com.webbanhang_springboot_restfulapi.entity.OrderDetail;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderDetailDAO extends JpaRepository<OrderDetail, String> {
 }
