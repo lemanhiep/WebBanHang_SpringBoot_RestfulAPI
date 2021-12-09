@@ -23,14 +23,18 @@ app.controller("shopping-cart-ctrl",function ($scope, $http)
        }
       },
 
-
       remove(id){
           // xóa sản phẩm khỏi giỏ hàng
+          var index = this.items.findIndex(item => item.id == id);
+          this.items.splice(index,1);
+          this.saveToLocalStorage();
       },
 
-
-      clear(){//xóa sạch các mặt hàng có trong giỏ
-          },
+      clear(){
+          //xóa sạch các mặt hàng có trong giỏ
+          this.items = []
+          this.saveToLocalStorage();
+      },
       amt_of(item){},
       get count(){
           //tính tổng số lượng các mặt hàng trong giỏ
@@ -50,6 +54,11 @@ app.controller("shopping-cart-ctrl",function ($scope, $http)
           var json = JSON.stringify(angular.copy(this.items));
           localStorage.setItem("cart", json);
       },
-          loadFromLocalStorage(){}
+          loadFromLocalStorage(){
+          //đọc giỏ hàng từ local storage
+          var json = localStorage.getItem("cart");
+          this.items = json ? JSON.parse(json) : [];
+          }
   }
+  $scope.cart.loadFromLocalStorage();
 })
