@@ -1,11 +1,11 @@
 package com.webbanhang_springboot_restfulapi.config;
 
+
 import com.webbanhang_springboot_restfulapi.entity.Account;
 import com.webbanhang_springboot_restfulapi.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,19 +19,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AccountService accountService;
-
+    @Autowired
     BCryptPasswordEncoder pe;
 
     //cung cấp nguồn dữ liệu đăng nhập
     @Override
-   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(username -> {
             try {
                 Account user = accountService.findById(username);
@@ -39,15 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 String[] roles = user.getAuthorities().stream()
                         .map(er -> er.getRole().getId())
                         .collect(Collectors.toList()).toArray(new String[0]);
-            return User.withUsername(username).password(password).roles(roles).build();
-            }
-            catch (NoSuchElementException e)
-            {
-                throw new UsernameNotFoundException(username + "not found!");
+                return User.withUsername(username).password(password).roles(roles).build();
+            } catch (NoSuchElementException e) {
+                throw  new UsernameNotFoundException(username + "not found!");
             }
         });
     }
-    //phần quyền sử dụng
+
+    //phân quyền sử dụng
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -73,12 +70,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //cơ chế mã hóa mật khẩu
     @Bean
     public BCryptPasswordEncoder getPasswordEncoder() {
-        return  new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
     //cho phép truy xuất REST API từ bên ngoài(domain khác)
     @Override
-    public void configure(WebSecurity web) throws Exception{
-        web.ignoring().antMatchers(HttpMethod.OPTIONS,"/**");
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 }
