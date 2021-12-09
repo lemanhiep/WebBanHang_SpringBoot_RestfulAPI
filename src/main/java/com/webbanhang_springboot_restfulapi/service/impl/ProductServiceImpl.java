@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -22,5 +23,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product findById(Integer id) {
         return pdao.findById(id).get();
+    }
+
+    @Override
+    public List<Product> findByCategory(String cid) {
+        return pdao.findByCategory(cid);
     }
 }
