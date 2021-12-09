@@ -1,8 +1,8 @@
 <div xmlns:th="http://www.thymeleaf.org/">
   <div class="panel panel-primary">
     <div class="panel-body text-center">
-      <i class="glyphicon glyphicon-shopping-cart" style="font-size: 25px"></i>
-      <a th:href="@{/cart/view}">15iteams x $25.7</a>
+      <i class="glyphicon glyphicon-shopping-cart" style="font-size: 25px; color: orangered;"></i>
+      <a th:href="@{/cart/view}">{{cart.count}} iteams x ${{cart.amount | number : 2}} </a>
     </div>
   </div>
 </div>
